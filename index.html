@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <style>
-    /* 전체 레이아웃 기본 설정 */
     body {
       margin: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
@@ -19,7 +18,7 @@
     .container {
       max-width: 960px;
       margin: 0 auto;
-      padding: 80px 16px 40px; /* 뉴스바 때문에 위에 여유 */
+      padding: 80px 16px 40px;
     }
 
     h1 {
@@ -35,7 +34,6 @@
       font-size: 0.95rem;
     }
 
-    /* 상단 뉴스 팝업/바 */
     .news-bar {
       position: fixed;
       top: 0;
@@ -84,7 +82,6 @@
       }
     }
 
-    /* 섹션 카드 스타일 */
     .card {
       background-color: #ffffff;
       border-radius: 8px;
@@ -104,7 +101,6 @@
       font-size: 0.8rem;
     }
 
-    /* 경제지표 테이블 */
     table {
       width: 100%;
       border-collapse: collapse;
@@ -140,7 +136,6 @@
       color: #777;
     }
 
-    /* 링크 리스트 */
     .links-list {
       list-style: none;
       padding-left: 0;
@@ -166,7 +161,6 @@
       display: block;
     }
 
-    /* 푸터 */
     footer {
       text-align: center;
       font-size: 0.75rem;
@@ -190,14 +184,10 @@
 </head>
 <body>
 
-  <!-- 상단 뉴스 팝업/헤드라인 바 -->
+  <!-- 상단 뉴스 바 -->
   <div class="news-bar">
     <span class="news-label">Latest News</span>
     <div class="news-ticker-wrapper">
-      <!--
-        ✅ 여기 있는 뉴스 텍스트들을 수동으로 업데이트하면 됨.
-        나중에 원하면 JavaScript + RSS/API로 자동 업데이트 버전도 만들 수 있음.
-      -->
       <div class="news-ticker">
         <span class="news-item">[예시] FOMC keeps interest rates unchanged.</span>
         <span class="news-item">[예시] U.S. CPI shows moderate inflation slowdown.</span>
@@ -206,18 +196,55 @@
     </div>
   </div>
 
-  <!-- 메인 컨테이너 -->
   <div class="container">
     <h1>Economic Information Dashboard</h1>
     <p class="description">
-      A simple, readable dashboard for key macro indicators and quick links to
-      investment analysis resources.
+      Simple macro indicators and quick links to investment analysis resources.
     </p>
 
-    <!-- 경제지표 테이블 섹션 -->
+    <!-- ✅ LIVE DATA (Google Sheets) 섹션 -->
     <section class="card">
-      <h2>Key Economic Indicators</h2>
-      <small>※ 값은 예시입니다. 실제 수치는 필요할 때 직접 업데이트해 주세요.</small>
+      <h2>Live Market &amp; Rate Snapshot (Google Sheets)</h2>
+      <small>
+        미국 기준금리, 한국 기준금리, USD/KRW, 미 10Y, S&amp;P 500, Nasdaq, KOSPI 등을  
+        <b>Google Sheets + GOOGLEFINANCE</b>로 실시간 연동해서 보여주는 영역입니다.
+      </small>
+
+      <!--
+        📌 사용법:
+        1) Google Sheets에서 지표를 GOOGLEFINANCE 함수로 불러오기
+           예시:
+             A1: Name                B1: Value
+             A2: US Fed Funds Rate  B2: =GOOGLEFINANCE("FEDFUNDS")
+             A3: Korea Base Rate    B3: (직접 입력 또는 한국은행/다른 API 활용)
+             A4: USD/KRW            B4: =GOOGLEFINANCE("CURRENCY:USDKRW")
+             A5: US 10Y Treasury    B5: =GOOGLEFINANCE("INDEX:TNX")
+             A6: S&P 500            B6: =GOOGLEFINANCE(".INX")
+             A7: Nasdaq Composite   B7: =GOOGLEFINANCE(".IXIC")
+             A8: KOSPI              B8: =GOOGLEFINANCE("KRX:KOSPI")
+        2) File → Publish to the web → '웹에 게시' → '임베드' 선택 후 iframe 코드 복사
+        3) 아래 iframe의 src="..." 부분을 네가 받은 주소로 교체
+      -->
+
+      <div style="margin-top: 12px;">
+        <iframe
+          src="PASTE_YOUR_PUBLISHED_GOOGLE_SHEET_IFRAME_URL_HERE"
+          width="100%"
+          height="360"
+          style="border:0; overflow:hidden;"
+        >
+        </iframe>
+      </div>
+      <p style="font-size: 0.8rem; color:#777; margin-top:8px;">
+        ※ 위 iframe은 예시 자리입니다. Google Sheets에서 <em>Publish to the web</em>으로 받은
+        iframe 주소를 src 부분에 직접 붙여넣으면 자동으로 연동됩니다.
+      </p>
+    </section>
+
+    <!-- 기존 수동 업데이트용 지표 테이블 (옵션, 백업용) -->
+    <section class="card">
+      <h2>Key Economic Indicators (Manual)</h2>
+      <small>※ 필요 시 수동으로 값 수정하는 백업/요약용 테이블입니다.</small>
 
       <table>
         <thead>
@@ -230,40 +257,52 @@
         </thead>
         <tbody>
           <tr>
-            <td class="indicator-name">Policy Interest Rate</td>
+            <td class="indicator-name">Policy Interest Rate (US)</td>
             <td>5.50%</td>
-            <td>Nov 2025</td>
-            <td class="indicator-note">Federal funds target rate (upper bound).</td>
+            <td>Example</td>
+            <td class="indicator-note">Fed funds target rate (upper bound).</td>
           </tr>
           <tr>
-            <td class="indicator-name">CPI (YoY)</td>
-            <td>3.2%</td>
-            <td>Oct 2025</td>
-            <td class="indicator-note">Headline consumer price index, year-over-year.</td>
+            <td class="indicator-name">Policy Interest Rate (Korea)</td>
+            <td>3.50%</td>
+            <td>Example</td>
+            <td class="indicator-note">Bank of Korea base rate.</td>
           </tr>
           <tr>
-            <td class="indicator-name">Core CPI (YoY)</td>
-            <td>3.6%</td>
-            <td>Oct 2025</td>
-            <td class="indicator-note">Excludes food and energy.</td>
+            <td class="indicator-name">USD/KRW</td>
+            <td>0000.0</td>
+            <td>Example</td>
+            <td class="indicator-note">Korean won per US dollar.</td>
           </tr>
           <tr>
-            <td class="indicator-name">Unemployment Rate</td>
-            <td>4.1%</td>
-            <td>Oct 2025</td>
-            <td class="indicator-note">U.S. civilian unemployment rate.</td>
-          </tr>
-          <tr>
-            <td class="indicator-name">10Y Treasury Yield</td>
+            <td class="indicator-name">10Y U.S. Treasury Yield</td>
             <td>4.3%</td>
-            <td>Nov 2025</td>
-            <td class="indicator-note">Approximate market yield on U.S. 10-year Treasuries.</td>
+            <td>Example</td>
+            <td class="indicator-note">Market yield on 10-year Treasuries.</td>
+          </tr>
+          <tr>
+            <td class="indicator-name">S&amp;P 500 Index</td>
+            <td>0000.00</td>
+            <td>Example</td>
+            <td class="indicator-note">S&amp;P 500 level.</td>
+          </tr>
+          <tr>
+            <td class="indicator-name">Nasdaq Composite</td>
+            <td>0000.00</td>
+            <td>Example</td>
+            <td class="indicator-note">Nasdaq Composite index level.</td>
+          </tr>
+          <tr>
+            <td class="indicator-name">KOSPI Index</td>
+            <td>0000.00</td>
+            <td>Example</td>
+            <td class="indicator-note">KOSPI index level.</td>
           </tr>
         </tbody>
       </table>
     </section>
 
-    <!-- 투자분석 사이트 링크 섹션 -->
+    <!-- 투자분석 링크 -->
     <section class="card">
       <h2>Investment Analysis Links</h2>
       <small>Frequently used research &amp; data websites</small>
@@ -273,25 +312,25 @@
           <a href="https://www.wisdomwhale.com" target="_blank" rel="noopener noreferrer">
             Wisdom Whale
           </a>
-          <span class="link-note">Korean stock &amp; business analysis platform (재무 분석 / 기업 리포트).</span>
+          <span class="link-note">Korean stock &amp; business analysis platform.</span>
         </li>
         <li>
           <a href="https://stockrow.com" target="_blank" rel="noopener noreferrer">
             Stockrow
           </a>
-          <span class="link-note">Fundamental data, charts, and financial statements for U.S. stocks.</span>
+          <span class="link-note">Fundamental data and financial statements for U.S. stocks.</span>
         </li>
         <li>
           <a href="https://www.morningstar.com" target="_blank" rel="noopener noreferrer">
             Morningstar
           </a>
-          <span class="link-note">Mutual funds, ETFs, and stock research (ratings, valuations, analysis).</span>
+          <span class="link-note">Research for funds, ETFs, and stocks.</span>
         </li>
         <li>
           <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener noreferrer">
             FRED (St. Louis Fed)
           </a>
-          <span class="link-note">Official macroeconomic data (interest rates, CPI, GDP, unemployment, etc.).</span>
+          <span class="link-note">Official macro data (rates, CPI, GDP, unemployment, etc.).</span>
         </li>
         <li>
           <a href="https://www.investing.com" target="_blank" rel="noopener noreferrer">
@@ -302,20 +341,8 @@
       </ul>
     </section>
 
-    <!-- (옵션) 데이터 출처 섹션 -->
-    <section class="card">
-      <h2>Data Update Notes</h2>
-      <p style="font-size: 0.85rem; color: #555;">
-        - This page is static (HTML only). Economic indicators are updated manually.<br />
-        - For the latest data, please check FRED, BLS, or your preferred data source
-          and then revise the table above.<br />
-        - You can edit this file locally and push the changes to your GitHub repository
-          to update the GitHub Pages site.
-      </p>
-    </section>
-
     <footer>
-      Built with plain HTML &middot; Hosted on GitHub Pages
+      Built with plain HTML · Live data via Google Sheets · Hosted on GitHub Pages
     </footer>
   </div>
 </body>
