@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Economic Dashboard</title>
+  <title>Economic / Market Info Links</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <style>
@@ -34,6 +34,7 @@
       font-size: 0.95rem;
     }
 
+    /* 상단 뉴스 바 */
     .news-bar {
       position: fixed;
       top: 0;
@@ -71,17 +72,20 @@
 
     .news-item {
       margin-right: 32px;
+      text-decoration: none;
+      color: #333;
+    }
+
+    .news-item:hover {
+      text-decoration: underline;
     }
 
     @keyframes ticker {
-      0% {
-        transform: translateX(0);
-      }
-      100% {
-        transform: translateX(-100%);
-      }
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
     }
 
+    /* 카드 & 링크 */
     .card {
       background-color: #ffffff;
       border-radius: 8px;
@@ -149,91 +153,104 @@
 </head>
 <body>
 
-  <!-- 상단 뉴스 바 -->
+  <!-- 상단 뉴스 바 (내용은 JS가 채움) -->
   <div class="news-bar">
-    <span class="news-label">Latest News</span>
+    <span class="news-label">Latest Market News</span>
     <div class="news-ticker-wrapper">
-      <div class="news-ticker">
-        <span class="news-item">[예시] FOMC decision update.</span>
-        <span class="news-item">[예시] U.S. macro &amp; equity market snapshot.</span>
-        <span class="news-item">[예시] Check live rates &amp; indices below.</span>
+      <div class="news-ticker" id="news-ticker">
+        <!-- JS로 헤드라인을 불러오기 전까지 보여줄 예비텍스트 -->
+        <span class="news-item">Loading latest headlines...</span>
       </div>
     </div>
   </div>
 
   <div class="container">
-    <h1>Economic Information Dashboard</h1>
+    <h1>Economic & Market Information</h1>
     <p class="description">
-      Live macro &amp; market indicators powered by Google Sheets,
-      plus quick links to investment analysis sites.
+      Simple links to key investment analysis sites and a live market news headline banner.
     </p>
-
-    <!-- ✅ 네가 준 구글 시트를 그대로 임베드 -->
-    <section class="card">
-      <h2>Live Indicators (Google Sheets)</h2>
-      <small>
-        이 표는 Google Sheets에서 직접 업데이트되며, 시트 내용을 수정하면
-        이 웹페이지도 자동으로 반영됩니다.
-      </small>
-
-      <div style="margin-top: 12px;">
-        <iframe
-          src="https://docs.google.com/spreadsheets/d/e/2PACX-1vR3oa4P1GkrsGY5-L1D5nd944VjrEAlpJwizWVKArlF3KmZY31iE3RUySIam8RdvKu9fe77ITR-9vn_/pubhtml?widget=true&amp;headers=false"
-          width="100%"
-          height="480"
-          style="border:0; overflow:hidden;"
-        ></iframe>
-      </div>
-
-      <p style="font-size: 0.8rem; color:#777; margin-top:8px;">
-        ※ 표 구조나 수식은 Google Sheets에서 수정하면 됩니다.<br />
-        GitHub Pages에 올린 <code>index.html</code> 파일은 따로 수정할 필요 없이
-        시트만 손보면 자동 반영돼요.
-      </p>
-    </section>
 
     <!-- 투자 분석 링크 섹션 -->
     <section class="card">
       <h2>Investment Analysis Links</h2>
-      <small>Frequently used research &amp; data websites</small>
+      <small>자주 쓰는 분석 / 데이터 사이트 모음</small>
 
       <ul class="links-list">
         <li>
           <a href="https://www.wisdomwhale.com" target="_blank" rel="noopener noreferrer">
             Wisdom Whale
           </a>
-          <span class="link-note">Korean stock &amp; business analysis platform.</span>
+          <span class="link-note">국내 주식 / 기업 재무 분석 플랫폼.</span>
         </li>
         <li>
           <a href="https://stockrow.com" target="_blank" rel="noopener noreferrer">
             Stockrow
           </a>
-          <span class="link-note">Fundamental data and financial statements for U.S. stocks.</span>
+          <span class="link-note">미국 주식 재무제표, 성장률, 차트 등.</span>
         </li>
         <li>
           <a href="https://www.morningstar.com" target="_blank" rel="noopener noreferrer">
             Morningstar
           </a>
-          <span class="link-note">Research for funds, ETFs, and stocks.</span>
+          <span class="link-note">펀드 / ETF / 주식 리서치, 레이팅.</span>
         </li>
         <li>
           <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener noreferrer">
             FRED (St. Louis Fed)
           </a>
-          <span class="link-note">Official macro data (rates, CPI, GDP, unemployment, etc.).</span>
+          <span class="link-note">금리, CPI, 실업률 등 공식 거시지표.</span>
         </li>
         <li>
           <a href="https://www.investing.com" target="_blank" rel="noopener noreferrer">
             Investing.com
           </a>
-          <span class="link-note">Global markets, economic calendar, and real-time quotes.</span>
+          <span class="link-note">글로벌 시장 시세, 캘린더, 각종 차트.</span>
         </li>
       </ul>
     </section>
 
     <footer>
-      Built with plain HTML · Live data via Google Sheets · Hosted on GitHub Pages
+      Built with plain HTML + a tiny JavaScript snippet · Hosted on GitHub Pages
     </footer>
   </div>
-</body>
-</html>
+
+  <!-- 🔽 실제 뉴스 RSS를 불러오는 스크립트 -->
+  <script>
+    (function () {
+      // Reuters Business News RSS (XML) → CORS 프록시 통해 가져오기
+      const RSS_URL = 'http://feeds.reuters.com/reuters/businessNews';
+      const PROXY = 'https://api.allorigins.win/get?url=' + encodeURIComponent(RSS_URL);
+
+      const tickerEl = document.getElementById('news-ticker');
+
+      fetch(PROXY)
+        .then(function (response) {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(function (data) {
+          const parser = new DOMParser();
+          const xml = parser.parseFromString(data.contents, 'text/xml');
+          const items = xml.querySelectorAll('item');
+
+          // 기존 텍스트 지우기
+          tickerEl.innerHTML = '';
+
+          const maxItems = 8; // 보여줄 헤드라인 개수
+          for (let i = 0; i < Math.min(maxItems, items.length); i++) {
+            const item = items[i];
+            const titleEl = item.querySelector('title');
+            const linkEl = item.querySelector('link');
+
+            const title = titleEl ? titleEl.textContent : '';
+            const link = linkEl ? linkEl.textContent : '#';
+
+            if (!title) continue;
+
+            const a = document.createElement('a');
+            a.className = 'news-item';
+            a.href = link;
+            a.target = '_blank';
+            a.
