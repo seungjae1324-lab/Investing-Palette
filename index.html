@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Economic / Market Info Links</title>
+  <title>Macro & Market Snapshot</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <style>
@@ -34,7 +34,6 @@
       font-size: 0.95rem;
     }
 
-    /* 상단 뉴스 바 */
     .news-bar {
       position: fixed;
       top: 0;
@@ -76,16 +75,11 @@
       color: #333;
     }
 
-    .news-item:hover {
-      text-decoration: underline;
-    }
-
     @keyframes ticker {
       0% { transform: translateX(0); }
       100% { transform: translateX(-100%); }
     }
 
-    /* 카드 & 링크 */
     .card {
       background-color: #ffffff;
       border-radius: 8px;
@@ -103,6 +97,41 @@
     .card small {
       color: #888;
       font-size: 0.8rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 0.9rem;
+    }
+
+    thead {
+      background-color: #f0f0f0;
+    }
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 8px 10px;
+      text-align: left;
+    }
+
+    th {
+      font-weight: 600;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #fafafa;
+    }
+
+    .indicator-name {
+      font-weight: 600;
+    }
+
+    .indicator-note {
+      font-size: 0.8rem;
+      color: #777;
     }
 
     .links-list {
@@ -153,126 +182,139 @@
 </head>
 <body>
 
-  <!-- 상단 뉴스 바 (내용은 JS가 채움) -->
   <div class="news-bar">
     <span class="news-label">Latest Market News</span>
     <div class="news-ticker-wrapper">
-      <div class="news-ticker" id="news-ticker">
-        <!-- JS로 헤드라인을 불러오기 전까지 보여줄 예비텍스트 -->
-        <span class="news-item">Loading latest headlines...</span>
+      <div class="news-ticker">
+        <span class="news-item">U.S. stocks extend a four-day rally as the S&amp;P 500 and Nasdaq add around 0.7%–0.8%.</span>
+        <span class="news-item">The Fed has lowered its target range for the federal funds rate to 3.75–4.00%, and markets price in further cuts.</span>
+        <span class="news-item">The Bank of Korea keeps its base rate at 2.50% while monitoring a weak won and housing-market risks.</span>
+        <span class="news-item">KOSPI climbs toward 3,960 as tech stocks lead gains and foreign investors return to Korean equities.</span>
+        <span class="news-item">The won trades near 1,470 per U.S. dollar, while the yen hovers around 156 per dollar in FX markets.</span>
       </div>
     </div>
   </div>
 
   <div class="container">
-    <h1>Economic & Market Information</h1>
+    <h1>Macro & Market Snapshot</h1>
     <p class="description">
-      Simple links to key investment analysis sites and a live market news headline banner.
+      A simple one-page dashboard with a static snapshot of key rates, FX, and equity indices,
+      plus quick links to major investment research sites.
     </p>
 
-    <!-- 투자 분석 링크 섹션 -->
     <section class="card">
-      <h2>Investment Analysis Links</h2>
-      <small>자주 쓰는 분석 / 데이터 사이트 모음</small>
+      <h2>Key Rates, FX, and Indices</h2>
+      <small>Snapshot as of November 26, 2025 (some equity levels reflect the latest available close).</small>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Indicator</th>
+            <th>Latest Value</th>
+            <th>Date</th>
+            <th>Note</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="indicator-name">U.S. Policy Rate (Fed Funds Upper Bound)</td>
+            <td>4.00%</td>
+            <td>Nov 26, 2025</td>
+            <td class="indicator-note">Target range 3.75–4.00% (upper bound).</td>
+          </tr>
+          <tr>
+            <td class="indicator-name">Korea Base Rate</td>
+            <td>2.50%</td>
+            <td>Nov 26, 2025</td>
+            <td class="indicator-note">Bank of Korea base rate.</td>
+          </tr>
+          <tr>
+            <td class="indicator-name">U.S. 2Y Treasury Yield</td>
+            <td>3.43%</td>
+            <td>Nov 25, 2025</td>
+            <td class="indicator-note">2-year constant maturity yield.</td>
+          </tr>
+          <tr>
+            <td class="indicator-name">U.S. 10Y Treasury Yield</td>
+            <td>4.00%</td>
+            <td>Nov 26, 2025</td>
+            <td class="indicator-note">10-year constant maturity yield.</td>
+          </tr>
+          <tr>
+            <td class="indicator-name">USD/KRW</td>
+            <td>1,469 KRW per USD</td>
+            <td>Nov 26, 2025</td>
+            <td class="indicator-note">Approximate mid-market rate.</td>
+          </tr>
+          <tr>
+            <td class="indicator-name">USD/JPY</td>
+            <td>156.1 JPY per USD</td>
+            <td>Nov 26, 2025</td>
+            <td class="indicator-note">Approximate mid-market rate.</td>
+          </tr>
+          <tr>
+            <td class="indicator-name">S&amp;P 500 Index</td>
+            <td>6,812.61</td>
+            <td>Nov 26, 2025</td>
+            <td class="indicator-note">Closing level.</td>
+          </tr>
+          <tr>
+            <td class="indicator-name">Nasdaq Composite</td>
+            <td>23,025.59</td>
+            <td>Nov 25, 2025</td>
+            <td class="indicator-note">Latest available closing level.</td>
+          </tr>
+          <tr>
+            <td class="indicator-name">KOSPI Index</td>
+            <td>3,960.87</td>
+            <td>Nov 26, 2025</td>
+            <td class="indicator-note">Closing level.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>Investment Research & Data Links</h2>
+      <small>Frequently used sites for fundamental data, macro series, and market analysis.</small>
 
       <ul class="links-list">
         <li>
           <a href="https://www.wisdomwhale.com" target="_blank" rel="noopener noreferrer">
             Wisdom Whale
           </a>
-          <span class="link-note">국내 주식 / 기업 재무 분석 플랫폼.</span>
+          <span class="link-note">Korean stock and business analysis (financials, reports, valuation tools).</span>
         </li>
         <li>
           <a href="https://stockrow.com" target="_blank" rel="noopener noreferrer">
             Stockrow
           </a>
-          <span class="link-note">미국 주식 재무제표, 성장률, 차트 등.</span>
+          <span class="link-note">Fundamental data, charts, and statements for U.S. equities.</span>
         </li>
         <li>
           <a href="https://www.morningstar.com" target="_blank" rel="noopener noreferrer">
             Morningstar
           </a>
-          <span class="link-note">펀드 / ETF / 주식 리서치, 레이팅.</span>
+          <span class="link-note">Research and ratings for funds, ETFs, and individual stocks.</span>
         </li>
         <li>
           <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener noreferrer">
             FRED (St. Louis Fed)
           </a>
-          <span class="link-note">금리, CPI, 실업률 등 공식 거시지표.</span>
+          <span class="link-note">Official macroeconomic time series (rates, CPI, labor, GDP, etc.).</span>
         </li>
         <li>
           <a href="https://www.investing.com" target="_blank" rel="noopener noreferrer">
             Investing.com
           </a>
-          <span class="link-note">글로벌 시장 시세, 캘린더, 각종 차트.</span>
+          <span class="link-note">Global markets, real-time quotes, bond yields, and economic calendar.</span>
         </li>
       </ul>
     </section>
 
     <footer>
-      Built with plain HTML + a tiny JavaScript snippet · Hosted on GitHub Pages
+      Static snapshot · Built with plain HTML · Hosted on GitHub Pages
     </footer>
   </div>
-
-  <!-- 🔽 실제 뉴스 RSS를 불러오는 스크립트 -->
- <script>
-    (function () {
-      // 미국 증시/금융 관련 구글 뉴스 RSS
-      const RSS_URL =
-        'https://news.google.com/rss/search?q=stock+market+OR+fed+OR+wall+street&hl=en-US&gl=US&ceid=US:en';
-
-      // CORS 우회를 위한 allorigins 프록시 (raw 모드)
-      const PROXY = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(RSS_URL);
-      const tickerEl = document.getElementById('news-ticker');
-
-      fetch(PROXY)
-        .then(function (response) {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          return response.text(); // JSON 말고 그냥 텍스트로 받기
-        })
-        .then(function (text) {
-          const parser = new DOMParser();
-          const xml = parser.parseFromString(text, 'text/xml');
-          const items = xml.querySelectorAll('item');
-
-          // 기존 "Loading..." 문구 지우기
-          tickerEl.innerHTML = '';
-
-          const maxItems = 8; // 보여줄 헤드라인 개수
-          for (let i = 0; i < Math.min(maxItems, items.length); i++) {
-            const item = items[i];
-            const titleNode = item.querySelector('title');
-            const linkNode = item.querySelector('link');
-
-            const title = titleNode ? titleNode.textContent : '';
-            const link = linkNode ? linkNode.textContent : '#';
-            if (!title) continue;
-
-            const a = document.createElement('a');
-            a.className = 'news-item';
-            a.href = link;
-            a.target = '_blank';
-            a.rel = 'noopener noreferrer';
-            a.textContent = title;
-
-            tickerEl.appendChild(a);
-          }
-
-          if (!tickerEl.innerHTML.trim()) {
-            tickerEl.innerHTML =
-              '<span class="news-item">No headlines available right now.</span>';
-          }
-        })
-        .catch(function (error) {
-          console.error('Error loading RSS:', error);
-          tickerEl.innerHTML =
-            '<span class="news-item">Failed to load latest news.</span>';
-        });
-    })();
-  </script>
-</body>
-</html>
 </body>
 </html>
