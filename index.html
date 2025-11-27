@@ -253,4 +253,22 @@
             a.className = 'news-item';
             a.href = link;
             a.target = '_blank';
-            a.
+            a.rel = 'noopener noreferrer';
+            a.textContent = title;
+
+            tickerEl.appendChild(a);
+          }
+
+          // 만약 RSS 항목이 하나도 없으면 기본 문구 표시
+          if (!tickerEl.innerHTML.trim()) {
+            tickerEl.innerHTML = '<span class="news-item">No headlines available right now.</span>';
+          }
+        })
+        .catch(function (error) {
+          console.error('Error loading RSS:', error);
+          tickerEl.innerHTML = '<span class="news-item">Failed to load latest news.</span>';
+        });
+    })();
+  </script>
+</body>
+</html>
