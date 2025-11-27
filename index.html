@@ -215,12 +215,14 @@
   </div>
 
   <!-- 🔽 실제 뉴스 RSS를 불러오는 스크립트 -->
-  <script>
+ <script>
     (function () {
-      // Reuters Business News RSS (XML) → CORS 프록시 통해 가져오기
-      const RSS_URL = 'http://feeds.reuters.com/reuters/businessNews';
-      const PROXY = 'https://api.allorigins.win/get?url=' + encodeURIComponent(RSS_URL);
+      // 미국 증시/금융 관련 구글 뉴스 RSS
+      const RSS_URL =
+        'https://news.google.com/rss/search?q=stock+market+OR+fed+OR+wall+street&hl=en-US&gl=US&ceid=US:en';
 
+      // CORS 우회를 위한 allorigins 프록시 (raw 모드)
+      const PROXY = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(RSS_URL);
       const tickerEl = document.getElementById('news-ticker');
 
       fetch(PROXY)
@@ -228,25 +230,24 @@
           if (!response.ok) {
             throw new Error('Network response was not ok');
           }
-          return response.json();
+          return response.text(); // JSON 말고 그냥 텍스트로 받기
         })
-        .then(function (data) {
+        .then(function (text) {
           const parser = new DOMParser();
-          const xml = parser.parseFromString(data.contents, 'text/xml');
+          const xml = parser.parseFromString(text, 'text/xml');
           const items = xml.querySelectorAll('item');
 
-          // 기존 텍스트 지우기
+          // 기존 "Loading..." 문구 지우기
           tickerEl.innerHTML = '';
 
           const maxItems = 8; // 보여줄 헤드라인 개수
           for (let i = 0; i < Math.min(maxItems, items.length); i++) {
             const item = items[i];
-            const titleEl = item.querySelector('title');
-            const linkEl = item.querySelector('link');
+            const titleNode = item.querySelector('title');
+            const linkNode = item.querySelector('link');
 
-            const title = titleEl ? titleEl.textContent : '';
-            const link = linkEl ? linkEl.textContent : '#';
-
+            const title = titleNode ? titleNode.textContent : '';
+            const link = linkNode ? linkNode.textContent : '#';
             if (!title) continue;
 
             const a = document.createElement('a');
@@ -259,16 +260,19 @@
             tickerEl.appendChild(a);
           }
 
-          // 만약 RSS 항목이 하나도 없으면 기본 문구 표시
           if (!tickerEl.innerHTML.trim()) {
-            tickerEl.innerHTML = '<span class="news-item">No headlines available right now.</span>';
+            tickerEl.innerHTML =
+              '<span class="news-item">No headlines available right now.</span>';
           }
         })
         .catch(function (error) {
           console.error('Error loading RSS:', error);
-          tickerEl.innerHTML = '<span class="news-item">Failed to load latest news.</span>';
+          tickerEl.innerHTML =
+            '<span class="news-item">Failed to load latest news.</span>';
         });
     })();
   </script>
+</body>
+</html>
 </body>
 </html>
