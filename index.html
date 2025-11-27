@@ -101,41 +101,6 @@
       font-size: 0.8rem;
     }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 12px;
-      font-size: 0.9rem;
-    }
-
-    thead {
-      background-color: #f0f0f0;
-    }
-
-    th,
-    td {
-      border: 1px solid #ddd;
-      padding: 8px 10px;
-      text-align: left;
-    }
-
-    th {
-      font-weight: 600;
-    }
-
-    tr:nth-child(even) td {
-      background-color: #fafafa;
-    }
-
-    .indicator-name {
-      font-weight: 600;
-    }
-
-    .indicator-note {
-      font-size: 0.8rem;
-      color: #777;
-    }
-
     .links-list {
       list-style: none;
       padding-left: 0;
@@ -189,9 +154,9 @@
     <span class="news-label">Latest News</span>
     <div class="news-ticker-wrapper">
       <div class="news-ticker">
-        <span class="news-item">[예시] FOMC keeps interest rates unchanged.</span>
-        <span class="news-item">[예시] U.S. CPI shows moderate inflation slowdown.</span>
-        <span class="news-item">[예시] Unemployment rate remains stable at 4.1%.</span>
+        <span class="news-item">[예시] FOMC decision update.</span>
+        <span class="news-item">[예시] U.S. macro &amp; equity market snapshot.</span>
+        <span class="news-item">[예시] Check live rates &amp; indices below.</span>
       </div>
     </div>
   </div>
@@ -199,110 +164,35 @@
   <div class="container">
     <h1>Economic Information Dashboard</h1>
     <p class="description">
-      Simple macro indicators and quick links to investment analysis resources.
+      Live macro &amp; market indicators powered by Google Sheets,
+      plus quick links to investment analysis sites.
     </p>
 
-    <!-- ✅ LIVE DATA (Google Sheets) 섹션 -->
+    <!-- ✅ 네가 준 구글 시트를 그대로 임베드 -->
     <section class="card">
-      <h2>Live Market &amp; Rate Snapshot (Google Sheets)</h2>
+      <h2>Live Indicators (Google Sheets)</h2>
       <small>
-        미국 기준금리, 한국 기준금리, USD/KRW, 미 10Y, S&amp;P 500, Nasdaq, KOSPI 등을  
-        <b>Google Sheets + GOOGLEFINANCE</b>로 실시간 연동해서 보여주는 영역입니다.
+        이 표는 Google Sheets에서 직접 업데이트되며, 시트 내용을 수정하면
+        이 웹페이지도 자동으로 반영됩니다.
       </small>
-
-      <!--
-        📌 사용법:
-        1) Google Sheets에서 지표를 GOOGLEFINANCE 함수로 불러오기
-           예시:
-             A1: Name                B1: Value
-             A2: US Fed Funds Rate  B2: =GOOGLEFINANCE("FEDFUNDS")
-             A3: Korea Base Rate    B3: (직접 입력 또는 한국은행/다른 API 활용)
-             A4: USD/KRW            B4: =GOOGLEFINANCE("CURRENCY:USDKRW")
-             A5: US 10Y Treasury    B5: =GOOGLEFINANCE("INDEX:TNX")
-             A6: S&P 500            B6: =GOOGLEFINANCE(".INX")
-             A7: Nasdaq Composite   B7: =GOOGLEFINANCE(".IXIC")
-             A8: KOSPI              B8: =GOOGLEFINANCE("KRX:KOSPI")
-        2) File → Publish to the web → '웹에 게시' → '임베드' 선택 후 iframe 코드 복사
-        3) 아래 iframe의 src="..." 부분을 네가 받은 주소로 교체
-      -->
 
       <div style="margin-top: 12px;">
         <iframe
-          src="PASTE_YOUR_PUBLISHED_GOOGLE_SHEET_IFRAME_URL_HERE"
+          src="https://docs.google.com/spreadsheets/d/e/2PACX-1vR3oa4P1GkrsGY5-L1D5nd944VjrEAlpJwizWVKArlF3KmZY31iE3RUySIam8RdvKu9fe77ITR-9vn_/pubhtml?widget=true&amp;headers=false"
           width="100%"
-          height="360"
+          height="480"
           style="border:0; overflow:hidden;"
-        >
-        </iframe>
+        ></iframe>
       </div>
+
       <p style="font-size: 0.8rem; color:#777; margin-top:8px;">
-        ※ 위 iframe은 예시 자리입니다. Google Sheets에서 <em>Publish to the web</em>으로 받은
-        iframe 주소를 src 부분에 직접 붙여넣으면 자동으로 연동됩니다.
+        ※ 표 구조나 수식은 Google Sheets에서 수정하면 됩니다.<br />
+        GitHub Pages에 올린 <code>index.html</code> 파일은 따로 수정할 필요 없이
+        시트만 손보면 자동 반영돼요.
       </p>
     </section>
 
-    <!-- 기존 수동 업데이트용 지표 테이블 (옵션, 백업용) -->
-    <section class="card">
-      <h2>Key Economic Indicators (Manual)</h2>
-      <small>※ 필요 시 수동으로 값 수정하는 백업/요약용 테이블입니다.</small>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Indicator</th>
-            <th>Latest Value</th>
-            <th>Period</th>
-            <th>Note</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="indicator-name">Policy Interest Rate (US)</td>
-            <td>5.50%</td>
-            <td>Example</td>
-            <td class="indicator-note">Fed funds target rate (upper bound).</td>
-          </tr>
-          <tr>
-            <td class="indicator-name">Policy Interest Rate (Korea)</td>
-            <td>3.50%</td>
-            <td>Example</td>
-            <td class="indicator-note">Bank of Korea base rate.</td>
-          </tr>
-          <tr>
-            <td class="indicator-name">USD/KRW</td>
-            <td>0000.0</td>
-            <td>Example</td>
-            <td class="indicator-note">Korean won per US dollar.</td>
-          </tr>
-          <tr>
-            <td class="indicator-name">10Y U.S. Treasury Yield</td>
-            <td>4.3%</td>
-            <td>Example</td>
-            <td class="indicator-note">Market yield on 10-year Treasuries.</td>
-          </tr>
-          <tr>
-            <td class="indicator-name">S&amp;P 500 Index</td>
-            <td>0000.00</td>
-            <td>Example</td>
-            <td class="indicator-note">S&amp;P 500 level.</td>
-          </tr>
-          <tr>
-            <td class="indicator-name">Nasdaq Composite</td>
-            <td>0000.00</td>
-            <td>Example</td>
-            <td class="indicator-note">Nasdaq Composite index level.</td>
-          </tr>
-          <tr>
-            <td class="indicator-name">KOSPI Index</td>
-            <td>0000.00</td>
-            <td>Example</td>
-            <td class="indicator-note">KOSPI index level.</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <!-- 투자분석 링크 -->
+    <!-- 투자 분석 링크 섹션 -->
     <section class="card">
       <h2>Investment Analysis Links</h2>
       <small>Frequently used research &amp; data websites</small>
